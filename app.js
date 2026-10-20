@@ -119,8 +119,8 @@ function updateMechanics() {
   const rodAngle = (Math.atan2(rodDx, rodDy) * 180) / Math.PI;
 
   document.querySelector("#piston").setAttribute("transform", `translate(0 ${pistonPinY - 25})`);
-  document.querySelector("#connectingRod").setAttribute("transform", `translate(420 ${pistonPinY}) rotate(${rodAngle}) scale(1 ${rodLength / 106}) translate(-420 0)`);
-  document.querySelector("#crankWheel").setAttribute("transform", `translate(-420 -398) rotate(${crankAngle} 420 398) translate(0 398)`);
+  document.querySelector("#connectingRod").setAttribute("transform", `translate(420 ${pistonPinY - 8}) rotate(${rodAngle}) scale(1 ${rodLength / 106}) translate(-420 -8)`);
+  document.querySelector("#crankWheel").setAttribute("transform", `translate(0 398) rotate(${crankAngle} 420 0)`);
   document.querySelector("#crankPin").setAttribute("cx", pinX);
   document.querySelector("#crankPin").setAttribute("cy", pinY);
   document.querySelector("#crankAngle").textContent = `${String(Math.round(crankAngle)).padStart(3, "0")}°`;

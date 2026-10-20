@@ -1,14 +1,11 @@
 {
   "name": "bmw-v8-experience",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Exploration interactive et autonome du V8 BMW M3 GTS E92.",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://localhost:26831/samatiii2/bmw-v8-experience"
+    "start": "python3 -m http.server 4173",
+    "check": "node --check app.js"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 :root {
-  font-family: "Manrope", sans-serif;
+  font-family: "Arial", "Helvetica Neue", sans-serif;
   color: #232720;
   background: #f3f2ed;
   font-synthesis: none;
@@ -10,7 +10,7 @@
   --line: #d9d9d0;
   --acid: #d8ff3e;
   --orange: #ed7146;
-  --mono: "DM Mono", monospace;
+  --mono: "Courier New", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -76,6 +76,8 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .chamber-glow { fill: #e7a24a; opacity: .18; transition: opacity .1s; }
 .head-line { stroke: #8b9185; stroke-width: 1; }
 .lower-block { fill: #343a32; stroke: #697166; stroke-width: 1.5; }
+.valve { transition: transform .12s ease-out; }
+.valve.is-open { transform: translateY(10px); }
 .valve path:first-child { fill: none; stroke: #d2d4c9; stroke-width: 5; }
 .valve-head { stroke: #e7e9dc; stroke-width: 7; stroke-linecap: round; }
 .valve-spring { fill: none; stroke: #868c81; stroke-width: 1.5; }
