@@ -108,18 +108,18 @@ function setPaused(paused) {
 
 function updateMechanics() {
   const crankRadians = (phaseDegrees * Math.PI) / 180;
-  const crankAngle = (phaseDegrees / 2) % 360;
+  const crankAngle = phaseDegrees % 360;
   const travel = (1 - Math.cos(crankRadians)) * 27;
   const pistonPinY = 253 + travel;
-  const pinX = 420 + Math.cos(crankRadians) * 34;
-  const pinY = 398 + Math.sin(crankRadians) * 34;
+  const pinX = 420 + Math.sin(crankRadians) * 34;
+  const pinY = 398 - Math.cos(crankRadians) * 34;
   const rodDx = pinX - 420;
   const rodDy = pinY - pistonPinY;
   const rodLength = Math.hypot(rodDx, rodDy);
-  const rodAngle = (Math.atan2(rodDx, rodDy) * 180) / Math.PI;
+  const rodAngle = (Math.atan2(-rodDx, rodDy) * 180) / Math.PI;
 
   document.querySelector("#piston").setAttribute("transform", `translate(0 ${pistonPinY - 25})`);
-  document.querySelector("#connectingRod").setAttribute("transform", `translate(420 ${pistonPinY - 8}) rotate(${rodAngle}) scale(1 ${rodLength / 106}) translate(-420 -8)`);
+  document.querySelector("#connectingRod").setAttribute("transform", `translate(420 ${pistonPinY}) rotate(${rodAngle}) scale(1 ${rodLength / 106}) translate(-420 -8)`);
   document.querySelector("#crankWheel").setAttribute("transform", `translate(0 398) rotate(${crankAngle} 420 0)`);
   document.querySelector("#crankPin").setAttribute("cx", pinX);
   document.querySelector("#crankPin").setAttribute("cy", pinY);
@@ -143,7 +143,7 @@ function animate(timestamp) {
   lastFrame = timestamp;
 
   if (running && !reducedMotion.matches) {
-    phaseDegrees = (phaseDegrees + getRpm() * 6 * elapsed) % 720;
+    phaseDegrees = (phaseDegrees + getRpm() * 6 * elapsed * 0.02) % 720;
   }
   if (timestamp - lastUiUpdate > 40 || !running || reducedMotion.matches) {
     updateMechanics();
@@ -155,7 +155,7 @@ function animate(timestamp) {
 throttle.addEventListener("input", updateThrottleDisplay);
 runButton.addEventListener("click", () => setPaused(running));
 resetButton.addEventListener("click", () => {
-  throttle.value = "8";
+  throttle.value = "0";
   phaseDegrees = 0;
   setPaused(false);
   updateThrottleDisplay();

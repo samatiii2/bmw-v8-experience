@@ -23,6 +23,6 @@ pour le serveur statique.
 - Sélectionnez l’un des quatre temps pour lire son fonctionnement.
 - Parcourez les fiches des principaux composants.
 
-Le schéma animé est pédagogique et ne constitue pas une simulation physique
-exacte. L’application respecte le réglage de réduction des animations du
-navigateur.
+Le schéma animé ralentit la rotation pour rendre les temps observables ; il ne
+constitue pas une simulation physique exacte. L’application respecte le réglage
+de réduction des animations du navigateur.
