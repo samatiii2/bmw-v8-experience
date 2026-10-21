@@ -258,6 +258,147 @@ input[type="range"] { width: 100%; margin: 16px 0 7px; accent-color: var(--acid)
   .site-footer span:nth-child(2) { order: 3; width: 100%; }
 }
 
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+[hidden] { display: none !important; }
+.hero { min-height: 490px; padding-top: 64px; padding-bottom: 55px; }
+.hero h1 { font-size: clamp(76px, 9vw, 124px); animation: title-arrive 1s cubic-bezier(.16, 1, .3, 1) both; }
+.hero-intro { width: min(450px, 100%); }
+.hero-intro p { max-width: 390px; }
+.hero-specs { margin-top: 32px; }
+.hero-stamp { top: 80px; right: 7%; width: 270px; height: 270px; border-style: dashed; }
+.hero-stamp::after { content: ""; position: absolute; inset: -20px; border: 1px solid #deded6; border-radius: 50%; border-left-color: var(--orange); transform: rotate(35deg); }
+.hero-stamp i { top: auto; bottom: 33px; right: auto; width: 100%; color: #95998d; }
+.engine-section { padding-top: 62px; background: #171c19; }
+.engine-section .section-shell { width: min(1480px, calc(100% - 72px)); }
+.engine-section .section-heading { margin-bottom: 32px; }
+.engine-section .section-heading h2 { font-size: clamp(46px, 5.4vw, 72px); }
+.engine-lab { grid-template-columns: minmax(0, 1fr) 280px; border-color: #3b453c; background: #1c221e; }
+.engine-visual { padding: 20px 0 0; position: relative; }
+.visual-topline { margin: 0 24px 20px; }
+.viewer-controls { min-width: 0; padding: 0; margin: 0; border: 0; }
+.viewer-controls button { color: #b6c0b3; background: transparent; border: 1px solid #455044; padding: 10px 12px; min-height: 38px; font: 9px var(--mono); cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
+.viewer-controls button:hover { border-color: var(--acid); color: var(--acid); }
+.viewer-controls button[aria-pressed="true"] { color: #171c19; background: var(--acid); border-color: var(--acid); }
+.viewer-controls:disabled { opacity: .45; }
+.viewer-controls:disabled button { cursor: not-allowed; }
+.camera-bar { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 24px 8px; position: relative; z-index: 1; }
+.camera-bar button { font-size: 8px; padding: 9px 11px; }
+.model-stage { position: relative; height: clamp(430px, 46vw, 630px); overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 50% 65%, #333d31 0%, #1c221e 65%); }
+#engineCanvas { position: absolute; inset: 0; z-index: 1; }
+#engineCanvas canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+#engineCanvas canvas:active { cursor: grabbing; }
+#engineCanvas canvas:focus-visible { outline: 2px solid var(--orange); outline-offset: -4px; }
+.stage-heading { position: absolute; z-index: 2; left: 24px; top: 22px; color: #93a187; pointer-events: none; opacity: .35; }
+.stage-heading span { font: 10px var(--mono); letter-spacing: .22em; }
+.stage-heading strong { display: block; font-size: clamp(40px, 5.5vw, 85px); letter-spacing: -.07em; font-weight: 500; }
+.stage-coordinate { position: absolute; z-index: 2; right: 24px; bottom: 28px; color: #9ba991; font: 11px/2 var(--mono); pointer-events: none; }
+.stage-legend { position: absolute; z-index: 2; left: 24px; bottom: 23px; display: flex; flex-wrap: wrap; gap: 14px; font: 7px var(--mono); color: #d1c2ab; pointer-events: none; }
+.stage-legend span::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 5px; border-radius: 50%; background: currentColor; }
+.legend-air { color: #7edee7; }
+.legend-fire { color: #ff9350; }
+.model-loading { position: absolute; inset: 40% 12% auto; z-index: 3; text-align: center; font: 12px/1.8 var(--mono); padding: 20px; color: #e2ebd7; background: #20271fe6; border: 1px solid #515c47; }
+.viewer-help { text-align: center; margin: 0; padding: 13px 20px; border-top: 1px solid #364033; color: #a3ac9b; font: 8px/1.8 var(--mono); }
+.assembly-controls { padding: 20px 24px; border-top: 1px solid #364033; background: #222a22; }
+.assembly-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.assembly-heading > label { font: 9px var(--mono); letter-spacing: .06em; }
+.assembly-heading output { margin-left: 12px; color: var(--acid); }
+.assembly-heading > div { display: flex; gap: 5px; }
+.assembly-heading button { min-height: 30px; padding: 7px 10px; }
+.assembly-controls input[type="range"] { margin: 18px 0; }
+.viewer-toggles { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.viewer-toggles label, .inspector-actions label { display: flex; align-items: center; gap: 5px; font: 9px var(--mono); color: #c4cebb; min-height: 32px; cursor: pointer; }
+.viewer-controls input[type="checkbox"] { accent-color: var(--acid); width: 14px; height: 14px; }
+#tourButton { margin-left: auto; color: var(--acid); border-color: #657144; }
+.tour-caption { margin-top: 14px; border-top: 1px solid #4b563f; padding-top: 8px; }
+.tour-caption p { color: #d6decd; font-size: 12px; line-height: 1.7; }
+.diagram-fallback { border-top: 1px solid #364033; }
+.diagram-fallback summary { cursor: pointer; padding: 17px 24px; font: 9px var(--mono); color: #bdc8b4; }
+.diagram-fallback .diagram-caption { margin: 0 20px 15px; }
+.engine-console { background: #252d25; padding: 25px 22px; }
+.console-intro { margin: 27px 0 0; font-size: 20px; line-height: 1.35; letter-spacing: -.04em; }
+.console-intro span { color: #8b9981; }
+.rpm-readout { margin-top: 28px; }
+.rpm-readout #rpmValue { font-size: 56px; }
+.throttle-explanation { font-size: 11px; line-height: 1.75; color: #acb7a3; min-height: 96px; }
+.cycle-readout { margin-top: 26px; }
+.scrub-label { display: flex; justify-content: space-between; margin-top: 25px; font: 8px var(--mono); color: #b3bfa9; }
+.scrub-label output { color: var(--acid); }
+.cylinder-dots { gap: 4px; }
+.cylinder-dots i { display: grid; place-items: center; width: 23px; height: 23px; color: #b5c2aa; font: normal 9px var(--mono); }
+.cylinder-dots i.active { color: #171c19; }
+.disclaimer { color: #9eab94; line-height: 1.8; }
+.parts-workbench { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #3b453c; border-top: 0; }
+.part-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 24px; }
+.part-picker legend { float: left; width: 100%; grid-column: 1 / -1; margin-bottom: 12px; color: #929f88; font: 9px var(--mono); letter-spacing: .08em; }
+.part-picker button { text-align: left; display: flex; align-items: center; gap: 14px; min-height: 43px; }
+.part-picker button span { color: #78896b; font-size: 8px; }
+.part-picker button[aria-pressed="true"] span { color: #546231; }
+.part-inspector { border-left: 1px solid #3b453c; padding: 30px; background: #20281f; }
+.part-inspector > .eyebrow { font-size: 9px; color: var(--orange); }
+.part-inspector h3 { font-size: clamp(24px, 2.6vw, 37px); max-width: 430px; margin: 20px 0 12px; letter-spacing: -.05em; font-weight: 500; line-height: 1.05; }
+.part-inspector p { color: #aab5a0; font-size: 12px; line-height: 1.85; max-width: 530px; }
+.part-inspector .part-fact { color: #d6e3c9; font: 9px/1.8 var(--mono); margin-top: 22px; letter-spacing: .04em; }
+.inspector-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; border-top: 1px solid #3b453c; padding-top: 14px; margin-top: 18px; }
+.console-actions button { min-height: 42px; }
+.console-actions button:disabled { color: #a3af99; border-color: #535b4e; cursor: not-allowed; }
+.range-labels { color: #a1ac98; }
+@keyframes title-arrive {
+  from { opacity: 0; transform: translateY(35px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@media (max-width: 1000px) {
+  .engine-section .section-shell { width: calc(100% - 40px); }
+  .engine-lab { grid-template-columns: minmax(0, 1fr) 250px; }
+  .engine-console { display: block; }
+  .model-stage { height: 510px; }
+  .camera-bar, .assembly-controls { padding-inline: 16px; }
+  .camera-bar button { padding-inline: 8px; }
+  .visual-topline { margin-inline: 16px; font-size: 7px; }
+  .viewer-toggles { gap: 8px; }
+  #tourButton { margin-left: 0; }
+  .hero-stamp { right: 3%; width: 220px; height: 220px; opacity: .7; }
+  .hero-stamp span { font-size: 62px; }
+  .cycle-readout { border-left: 0; padding: 19px 0 0; border-top: 1px solid #444a40; }
+}
+@media (max-width: 760px) {
+  .hero { min-height: auto; padding-top: 45px; padding-bottom: 44px; }
+  .hero h1 { font-size: clamp(65px, 12vw, 90px); }
+  .hero-stamp { display: none; }
+  .engine-section { padding-top: 45px; padding-bottom: 64px; }
+  .engine-section .section-shell { width: calc(100% - 28px); }
+  .engine-section .section-heading { display: block; padding-inline: 6px; }
+  .engine-section .section-aside { width: auto; max-width: 440px; margin-top: 22px; }
+  .engine-lab { grid-template-columns: 1fr; }
+  .model-stage { height: 470px; }
+  .camera-bar { gap: 4px; }
+  .camera-bar button { flex: 1 0 auto; font-size: 8px; }
+  .engine-console { border-left: 0; border-top: 1px solid #3b453c; display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+  .console-heading, .console-intro, .throttle-control, #throttle, .range-labels, .throttle-explanation, .console-actions, .scrub-label, #cycleScrub, .disclaimer { grid-column: 1 / -1; }
+  .console-intro { margin-top: 16px; }
+  .rpm-readout { grid-column: 1; margin-top: 22px; }
+  .cycle-readout { grid-column: 2; grid-row: 3 / 5; margin-top: 24px; border: 0; padding: 0; }
+  .cylinder-sequence { grid-column: 1; margin-top: 16px; }
+  .throttle-explanation { min-height: auto; }
+  .console-actions { margin-top: 12px; }
+  .parts-workbench { grid-template-columns: 1fr; }
+  .part-inspector { border-left: 0; border-top: 1px solid #3b453c; padding: 24px; }
+  .part-picker { padding: 22px; }
+}
+@media (max-width: 420px) {
+  .model-stage { height: 380px; }
+  .stage-heading { top: 18px; left: 16px; }
+  .stage-heading strong { font-size: 43px; }
+  .stage-legend { left: 16px; font-size: 6px; gap: 9px; }
+  .stage-coordinate { right: 14px; font-size: 8px; }
+  .assembly-controls { padding: 16px; }
+  .viewer-toggles { column-gap: 13px; }
+  .viewer-toggles label { font-size: 8px; }
+  #tourButton { width: 100%; margin-top: 5px; }
+  .engine-console { padding: 22px 18px; gap: 0 16px; }
+  .rpm-readout #rpmValue { font-size: 46px; }
+  .part-picker { padding: 18px; }
+  .part-picker button { font-size: 8px; padding: 10px; gap: 8px; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }

@@ -4,11 +4,15 @@
   "description": "Exploration interactive et autonome du V8 BMW M3 GTS E92.",
   "private": true,
   "scripts": {
-    "start": "python3 -m http.server 4173",
-    "check": "node --check app.js"
+    "start": "npm run build && python3 -m http.server 4173 --directory _site",
+    "check": "node --check app.js && node --check viewer.mjs && node --check engine3d.mjs",
+    "build": "mkdir -p _site/vendor/three && cp index.html styles.css app.js viewer.mjs engine3d.mjs _site/ && cp node_modules/three/build/three.module.js node_modules/three/build/three.core.js node_modules/three/examples/jsm/controls/OrbitControls.js node_modules/three/LICENSE _site/vendor/three/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "three": "0.180.0"
+  }
 }
