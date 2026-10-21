@@ -10,6 +10,7 @@ const phaseName = document.querySelector("#phaseName");
 const phaseDescription = document.querySelector("#phaseDescription");
 const cycleSteps = [...document.querySelectorAll(".cycle-step")];
 const cylinderDots = [...document.querySelectorAll(".cylinder-dots i")];
+const firingOrder = [0, 4, 3, 7, 6, 1, 5, 2];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const cycleScrub = document.querySelector("#cycleScrub");
 const scrubValue = document.querySelector("#scrubValue");
@@ -105,11 +106,12 @@ function setPhase(index) {
 }
 
 function setPaused(paused) {
-  running = !paused;
+  running = !paused && !reducedMotion.matches;
+  runButton.disabled = reducedMotion.matches;
   runButton.setAttribute("aria-pressed", String(running));
-  runLabel.textContent = running ? "Mettre en pause" : "Relancer le moteur";
+  runLabel.textContent = reducedMotion.matches ? "Mouvements réduits" : running ? "Mettre en pause" : "Relancer le moteur";
   runButton.querySelector(".pause-icon").textContent = running ? "Ⅱ" : "▶";
-  engineLed.classList.toggle("is-off", paused);
+  engineLed.classList.toggle("is-off", !running);
   lastFrame = 0;
 }
 
@@ -141,7 +143,7 @@ function updateMechanics() {
   spark.classList.toggle("is-sparking", phaseIndex === 2 && phaseDegrees % 180 < 12);
   document.querySelector(".chamber-glow").style.opacity = phaseIndex === 2 ? ".65" : ".18";
 
-  const activeCylinder = Math.floor((phaseDegrees / 720) * cylinderDots.length) % cylinderDots.length;
+  const activeCylinder = firingOrder[Math.floor(((phaseDegrees + 360) % 720) / 90)];
   cylinderDots.forEach((dot, index) => dot.classList.toggle("active", index === activeCylinder));
 }
 
@@ -193,7 +195,7 @@ cycleSteps.forEach((step) => {
   });
 });
 reducedMotion.addEventListener("change", () => {
-  if (reducedMotion.matches) setPaused(true);
+  setPaused(!running || reducedMotion.matches);
   lastFrame = 0;
   updateMechanics();
 });

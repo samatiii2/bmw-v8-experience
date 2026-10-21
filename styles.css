@@ -288,7 +288,7 @@ input[type="range"] { width: 100%; margin: 16px 0 7px; accent-color: var(--acid)
 #engineCanvas canvas { display: block; width: 100%; height: 100%; cursor: grab; }
 #engineCanvas canvas:active { cursor: grabbing; }
 #engineCanvas canvas:focus-visible { outline: 2px solid var(--orange); outline-offset: -4px; }
-.stage-heading { position: absolute; z-index: 0; left: 24px; top: 22px; color: #626e5c; pointer-events: none; opacity: .35; }
+.stage-heading { position: absolute; z-index: 2; left: 24px; top: 22px; color: #93a187; pointer-events: none; opacity: .35; }
 .stage-heading span { font: 10px var(--mono); letter-spacing: .22em; }
 .stage-heading strong { display: block; font-size: clamp(40px, 5.5vw, 85px); letter-spacing: -.07em; font-weight: 500; }
 .stage-coordinate { position: absolute; z-index: 2; right: 24px; bottom: 28px; color: #9ba991; font: 11px/2 var(--mono); pointer-events: none; }
@@ -323,6 +323,9 @@ input[type="range"] { width: 100%; margin: 16px 0 7px; accent-color: var(--acid)
 .cycle-readout { margin-top: 26px; }
 .scrub-label { display: flex; justify-content: space-between; margin-top: 25px; font: 8px var(--mono); color: #b3bfa9; }
 .scrub-label output { color: var(--acid); }
+.cylinder-dots { gap: 4px; }
+.cylinder-dots i { display: grid; place-items: center; width: 23px; height: 23px; color: #b5c2aa; font: normal 9px var(--mono); }
+.cylinder-dots i.active { color: #171c19; }
 .disclaimer { color: #9eab94; line-height: 1.8; }
 .parts-workbench { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #3b453c; border-top: 0; }
 .part-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 24px; }
@@ -337,6 +340,7 @@ input[type="range"] { width: 100%; margin: 16px 0 7px; accent-color: var(--acid)
 .part-inspector .part-fact { color: #d6e3c9; font: 9px/1.8 var(--mono); margin-top: 22px; letter-spacing: .04em; }
 .inspector-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; border-top: 1px solid #3b453c; padding-top: 14px; margin-top: 18px; }
 .console-actions button { min-height: 42px; }
+.console-actions button:disabled { color: #a3af99; border-color: #535b4e; cursor: not-allowed; }
 .range-labels { color: #a1ac98; }
 @keyframes title-arrive {
   from { opacity: 0; transform: translateY(35px); filter: blur(6px); }

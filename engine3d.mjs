@@ -15,7 +15,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
   } catch (error) {
     onError(error);
-    return inertViewer();
+    return null;
   }
 
   const scene = new THREE.Scene();
@@ -185,13 +185,11 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
   for (let i = 0; i < 5; i++) {
     cylinder(crankRotor, 'crank', silver, 0.24, 0.24, 0, 0, -2.2 + i * 1.1, 'z');
   }
-  const throwVectors = [];
   for (let i = 0; i < 4; i++) {
     const phase = THROWS[i] * DEG;
     const x = crankRadius * Math.sin(phase);
     const y = crankRadius * Math.cos(phase);
     const z = -1.65 + i * 1.1;
-    throwVectors.push(new THREE.Vector3(x, y, z));
     cylinder(crankRotor, 'crank', copper, 0.16, 0.65, x, y, z, 'z');
     for (const dz of [-0.4, 0.4]) {
       const web = box(crankRotor, 'crank', steel, x * 0.28, y * 0.28, z + dz, 0.52, 0.91, 0.16, true);
@@ -267,7 +265,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
         const index = (bank < 0 ? 0 : 4) + i;
         for (const dz of [-0.16, 0.16]) {
           const lobe = mesh(lobeGeo, copper, cam, 'valves');
-          const peak = (FIRING[index] + (side < 0 ? 450 : 270)) * DEG / 2;
+          const peak = (FIRING[index] + (side === -bank ? 450 : 270)) * DEG / 2;
           lobe.position.set(Math.sin(peak) * 0.046, -Math.cos(peak) * 0.046, -1.65 + i * 1.1 + bank * 0.09 + dz);
           lobe.scale.set(0.095, 0.15, 0.066);
           lobe.rotation.z = peak;
@@ -308,11 +306,11 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
           valve.position.set(side * 0.21, 2.33, z + dz);
           valve.rotation.z = -side * 0.12;
           train.add(valve);
-          mesh(valveGeo, side < 0 ? silver : copper, valve, 'valves');
+          mesh(valveGeo, side === -bank ? silver : copper, valve, 'valves');
           cylinder(valve, 'valves', steel, 0.023, 0.43, 0, 0.23, 0);
           cylinder(valve, 'valves', dark, 0.071, 0.065, 0, 0.48, 0);
           for (let r = 0; r < 5; r++) ring(valve, 'valves', steel, 0.06, 0, 0.3 + r * 0.028, 0);
-          valves.push({ valve, index, intake: side < 0 });
+          valves.push({ valve, index, intake: side === -bank });
         }
       }
       cylinder(train, 'valves', cream, 0.06, 0.26, 0, 2.72, z);
@@ -331,18 +329,18 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
       spark.castShadow = false;
       glows.push({ gas, spark, index, piston });
       const mouth = mesh(funnelGeo, orange, intake, 'intake');
-      mouth.position.set(-0.08, 3.42, z);
-      ring(intake, 'intake', silver, 0.31, -0.08, 3.575, z);
+      mouth.position.set(-bank * 0.08, 3.42, z);
+      ring(intake, 'intake', silver, 0.31, -bank * 0.08, 3.575, z);
       const throat = mesh(geometry(new THREE.CylinderGeometry(0.197, 0.197, 0.37, 20, 1, true)), dark, intake, 'intake');
-      throat.position.set(-0.08, 3.1, z);
+      throat.position.set(-bank * 0.08, 3.1, z);
       const blade = mesh(bladeGeo, copper, intake, 'intake');
-      blade.position.set(-0.08, 3.17, z);
-      cylinder(intake, 'intake', silver, 0.019, 0.44, -0.08, 3.17, z, 'z');
+      blade.position.set(-bank * 0.08, 3.17, z);
+      cylinder(intake, 'intake', silver, 0.019, 0.44, -bank * 0.08, 3.17, z, 'z');
       blades.push(blade);
-      tube(intake, 'intake', silver, [[-0.08, 2.95, z], [-0.22, 2.72, z], [-0.2, 2.45, z]], 0.135);
-      const path = [[0.38, 2.48, z], [0.77, 2.45, z], [1.06, 1.98, z], [1.08, 0.9, z - 0.15], [0.94, 0.36, -2.34]];
+      tube(intake, 'intake', silver, [[-bank * 0.08, 2.95, z], [-bank * 0.22, 2.72, z], [-bank * 0.2, 2.45, z]], 0.135);
+      const path = [[bank * 0.38, 2.48, z], [bank * 0.77, 2.45, z], [bank * 1.06, 1.98, z], [bank * 1.08, 0.9, z - 0.15], [bank * 0.94, 0.36, -2.34]];
       tube(exhaust, 'exhaust', copper, path, 0.115);
-      ring(exhaust, 'exhaust', steel, 0.145, 0.45, 2.48, z, 'x');
+      ring(exhaust, 'exhaust', steel, 0.145, bank * 0.45, 2.48, z, 'x');
       const exhaustCurve = new THREE.CatmullRomCurve3(path.map((p) => new THREE.Vector3(...p)));
       for (const kind of ['intake', 'exhaust']) {
         const flowGroup = kind === 'intake' ? intake : exhaust;
@@ -353,11 +351,11 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
           dot.castShadow = false;
           dots.push(dot);
         }
-        flows.push({ dots, kind, index, z, curve: exhaustCurve });
+        flows.push({ dots, kind, index, z, bank, curve: exhaustCurve });
       }
     }
-    cylinder(exhaust, 'exhaust', dark, 0.23, 0.65, 0.94, 0.36, -2.61, 'z');
-    ring(exhaust, 'exhaust', orange, 0.235, 0.94, 0.36, -2.94, 'z');
+    cylinder(exhaust, 'exhaust', dark, 0.23, 0.65, bank * 0.94, 0.36, -2.61, 'z');
+    ring(exhaust, 'exhaust', orange, 0.235, bank * 0.94, 0.36, -2.94, 'z');
   }
 
   const state = { degrees: 0, throttle: 0.24, running: false, reducedMotion: false };
@@ -389,7 +387,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
   };
   function setVisibility() {
     for (const id of PARTS) groups[id].visible = !isolated || !selected || id === selected;
-    for (const object of sections) object.visible = !cutaway;
+    for (const object of sections) object.visible = !cutaway || object.userData.part === selected;
   }
   function applyHighlight() {
     for (const object of meshes) {
@@ -427,23 +425,25 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
       end.set(item.bank * Math.SQRT1_2 * distance, Math.SQRT1_2 * distance, item.z);
       direction.subVectors(end, journal);
       item.rod.position.copy(journal);
-      item.rod.quaternion.setFromUnitVectors(rodAxis, direction.clone().normalize());
-      item.rod.scale.y = direction.length();
+      const rodLength = direction.length();
+      item.rod.quaternion.setFromUnitVectors(rodAxis, direction.divideScalar(rodLength));
+      item.rod.scale.y = rodLength;
       item.bigEnd.position.copy(journal);
       item.bigRing.position.copy(journal);
       item.bigRing.position.z += 0.09;
       item.smallEnd.position.copy(end);
     }
-    for (const cam of cams) cam.rotation.z = -mod(state.degrees, 1440) * DEG / 2;
+    // Public cycle zero is intake TDC; cylinder 1 ignites at 360 degrees.
+    for (const cam of cams) cam.rotation.z = -mod(state.degrees - 360, 1440) * DEG / 2;
     for (const { valve, index, intake } of valves) {
-      const cycle = mod(state.degrees - FIRING[index], 720);
+      const cycle = mod(state.degrees - FIRING[index] - 360, 720);
       const start = intake ? 360 : 180;
       const lift = cycle > start && cycle < start + 180 ? Math.sin((cycle - start) * Math.PI / 180) : 0;
       valve.position.y = 2.33 - lift * 0.15;
     }
     for (const blade of blades) blade.rotation.z = state.throttle * Math.PI * 0.48;
     for (const { gas, spark, index, piston } of glows) {
-      const cycle = mod(state.degrees - FIRING[index], 720);
+      const cycle = mod(state.degrees - FIRING[index] - 360, 720);
       const crown = piston.position.y + 0.19;
       const height = Math.max(0.025, 2.33 - crown);
       gas.position.y = crown + height / 2;
@@ -454,18 +454,18 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
       spark.visible = cycle < 17;
     }
     for (const flow of flows) {
-      const cycle = mod(state.degrees - FIRING[flow.index], 720);
+      const cycle = mod(state.degrees - FIRING[flow.index] - 360, 720);
       const active = flow.kind === 'intake' ? cycle >= 360 && cycle < 540 : cycle >= 180 && cycle < 360;
       for (let n = 0; n < flow.dots.length; n++) {
         const dot = flow.dots[n];
         dot.visible = active;
         if (!active) continue;
         const t = mod(cycle / 110 + n / flow.dots.length, 1);
-        if (flow.kind === 'intake') dot.position.set(-0.08 - t * 0.1, 3.8 - t * 1.43, flow.z);
+        if (flow.kind === 'intake') dot.position.set(-flow.bank * (0.08 + t * 0.1), 3.8 - t * 1.43, flow.z);
         else {
           dot.position.copy(flow.curve.getPoint(t));
           // Offset the tracer just outside the opaque runner for readable flow.
-          dot.position.x += 0.13;
+          dot.position.x += flow.bank * 0.13;
         }
       }
     }
@@ -526,6 +526,8 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
     const height = Math.max(1, container.clientHeight);
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
+    // Preserve horizontal framing on narrow screens, including exploded banks.
+    camera.fov = 2 * Math.atan(Math.tan(19 * DEG) * Math.max(1, 1.5 / camera.aspect)) / DEG;
     camera.updateProjectionMatrix();
     wake();
   }
@@ -667,9 +669,4 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
       canvas.remove();
     },
   };
-}
-
-function inertViewer() {
-  const noop = () => {};
-  return { update: noop, setView: noop, setExplode: noop, setCutaway: noop, setPart: noop, setAutoRotate: noop, reset: noop, dispose: noop };
 }

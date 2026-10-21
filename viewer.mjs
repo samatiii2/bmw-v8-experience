@@ -117,6 +117,7 @@ async function initialize() {
     if (window.bmwEngineState) viewer.update(window.bmwEngineState);
     $("#modelStatus").hidden = true;
     $("#diagramFallback").open = false;
+    $("#autoRotate").disabled = motion.matches;
     ["cameraControls", "assemblyControls", "partControls", "inspectorControls"].forEach((id) => { $(`#${id}`).disabled = false; });
   } catch {
     failViewer();
@@ -182,6 +183,7 @@ async function initialize() {
     setView("hero");
   });
   motion.addEventListener("change", () => {
+    $("#autoRotate").disabled = motion.matches;
     if (motion.matches) {
       $("#autoRotate").checked = false;
       if (available) viewer.setAutoRotate(false);
