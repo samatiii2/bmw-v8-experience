@@ -17,8 +17,10 @@ pour le serveur statique.
 
 ## Voir la version en ligne
 
-Après activation de GitHub Pages dans **Settings → Pages → Build and deployment
-→ Source: GitHub Actions**, le workflow publie automatiquement le site à
+Avant la première publication, activez GitHub Pages dans **Settings → Pages →
+Build and deployment → Source: GitHub Actions**. Sans cette configuration,
+`configure-pages` ne trouve pas encore de site Pages et le déploiement échoue.
+Le workflow publie ensuite automatiquement le site à
 [https://samatiii2.github.io/bmw-v8-experience/](https://samatiii2.github.io/bmw-v8-experience/).
 Il se lance à chaque mise à jour de `main` ou de la branche de travail actuelle.
 La première publication peut prendre quelques minutes ; son état et son URL
