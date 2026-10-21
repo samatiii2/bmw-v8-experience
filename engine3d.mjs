@@ -19,8 +19,8 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
   }
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('#111b26');
-  scene.fog = new THREE.Fog('#111b26', 17, 35);
+  scene.background = new THREE.Color('#1c221e');
+  scene.fog = new THREE.Fog('#1c221e', 17, 35);
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 60);
   camera.position.set(8.7, 6.1, 9.5);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
@@ -34,7 +34,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
   canvas.style.cssText = 'display:block;width:100%;height:100%;touch-action:none;outline-offset:-4px';
   canvas.tabIndex = 0;
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', 'Interactive 3D 90-degree cross-plane V8 engine. Drag to orbit, pinch or wheel to zoom. Arrow keys orbit; plus and minus zoom. Click a component to select it.');
+  canvas.setAttribute('aria-label', 'Moteur V8 à 90 degrés et vilebrequin en croix, modèle 3D interactif. Glissez pour tourner, pincez ou utilisez la molette pour zoomer. Les flèches orientent la vue ; plus et moins règlent le zoom. Cliquez sur une pièce pour la sélectionner.');
   container.appendChild(canvas);
 
   const controls = new OrbitControls(camera, canvas);
@@ -150,11 +150,11 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
   const fill = new THREE.DirectionalLight('#ffad75', 1.8);
   fill.position.set(2, 1, -7);
   scene.add(fill);
-  const floor = mesh(geometry(new THREE.PlaneGeometry(70, 70)), material('#17232e', 0.22, 0.8), scene);
+  const floor = mesh(geometry(new THREE.PlaneGeometry(70, 70)), material('#222a22', 0.22, 0.8), scene);
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = -1.47;
   floor.castShadow = false;
-  const grid = new THREE.GridHelper(24, 48, '#334757', '#243440');
+  const grid = new THREE.GridHelper(24, 48, '#424b3e', '#303a2e');
   grid.position.y = -1.465;
   grid.material.transparent = true;
   grid.material.opacity = 0.42;
@@ -382,7 +382,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
     hero: [[8.7, 6.1, 9.5], [0, 1.2, 0]],
     front: [[0, 3.1, 12.4], [0, 1.2, 0]],
     side: [[12.8, 3.1, 0.4], [0, 1.1, 0]],
-    top: [[0.05, 14.3, 0.06], [0, 1.1, 0]],
+    top: [[0.05, 18.6, 0.06], [0, 1.1, 0]],
     crank: [[5.8, 2.3, 6.7], [0, 0.15, 0]],
   };
   function setVisibility() {
@@ -502,7 +502,7 @@ export function createEngineViewer({ container, onSelect = () => {}, onError = (
         cameraTransition = null;
       }
     }
-    controls.autoRotate = autoRotate && !state.reducedMotion && !cameraTransition;
+    controls.autoRotate = autoRotate && state.running && !state.reducedMotion && !cameraTransition;
     controls.enableDamping = !state.reducedMotion;
     controls.update(dt);
     updateMechanics();
