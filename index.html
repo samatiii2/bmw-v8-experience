@@ -10,7 +10,11 @@
     <meta name="theme-color" content="#f3f2ed" />
     <title>V8 — BMW M3 GTS / S65B44</title>
     <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      { "imports": { "three": "./vendor/three/three.module.js" } }
+    </script>
     <script src="./app.js" defer></script>
+    <script type="module" src="./viewer.mjs"></script>
   </head>
   <body>
     <header class="site-header">
@@ -29,12 +33,13 @@
     <main id="top">
       <section class="hero section-shell" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot"></span> ÉTUDE INTERACTIVE · 2010</p>
+          <p class="eyebrow"><span class="status-dot"></span> ÉTUDE INTERACTIVE · 2010 · ATELIER 3D</p>
           <h1 id="hero-title">Le cœur<br />à <span>8 cylindres.</span></h1>
           <div class="hero-intro">
             <p>
               Huit cylindres. Une seule respiration. Entrez dans le V8 atmosphérique
-              de la BMW M3 GTS et regardez la mécanique prendre vie.
+              de la BMW M3 GTS. Tournez autour. Séparez chaque ensemble.
+              Observez ce que votre pied droit met en mouvement.
             </p>
             <a class="text-link" href="#mecanique">Explorer le moteur <span>↘</span></a>
           </div>
@@ -47,7 +52,7 @@
         <div class="hero-stamp" aria-hidden="true">
           <span>S65</span>
           <span>B44</span>
-          <i>90°</i>
+          <i>90° / 4,4 L / 450 CH</i>
         </div>
       </section>
 
@@ -56,20 +61,55 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">01 / OBSERVATOIRE MÉCANIQUE</p>
-              <h2 id="engine-title">La puissance,<br /><span>en mouvement.</span></h2>
+              <h2 id="engine-title">Ne regardez pas.<br /><span>Manipulez.</span></h2>
             </div>
             <p class="section-aside">
-              Un V à 90°, huit papillons indépendants et un vilebrequin à
-              plan plat. Faites varier le régime pour observer le cycle.
+              Un V à 90°, huit papillons individuels et un vilebrequin en croix.
+              Une maquette 3D pédagogique, pièce par pièce — pas un modèle CAO constructeur.
             </p>
           </div>
 
           <div class="engine-lab">
             <div class="engine-visual">
               <div class="visual-topline">
-                <span><span class="live-dot"></span> COUPE ANIMÉE</span>
-                <span>SCHÉMA PÉDAGOGIQUE · 1 CYLINDRE SUR 8</span>
+                <span><span class="live-dot"></span> S65B44 / LIVE ASSEMBLY</span>
+                <span>V8 · 90° · 32 SOUPAPES</span>
               </div>
+              <fieldset class="viewer-controls camera-bar" id="cameraControls" disabled>
+                <legend class="sr-only">Angles de caméra</legend>
+                <button type="button" data-view="hero" aria-pressed="true">01 / Perspective</button>
+                <button type="button" data-view="front" aria-pressed="false">02 / Face</button>
+                <button type="button" data-view="side" aria-pressed="false">03 / Profil</button>
+                <button type="button" data-view="top" aria-pressed="false">04 / Dessus</button>
+                <button type="button" data-view="crank" aria-pressed="false">05 / Vilebrequin</button>
+              </fieldset>
+              <div class="model-stage">
+                <div id="engineCanvas"></div>
+                <div class="stage-heading" aria-hidden="true"><span>THE ENGINE,</span><strong>UNBOXED.</strong></div>
+                <p class="model-loading" id="modelStatus" role="status">Préparation de l’atelier 3D…</p>
+                <div class="stage-coordinate" aria-hidden="true">Y ↑<br />Z ↙ · ↗ X</div>
+                <div class="stage-legend"><span class="legend-air">AIR FRAIS</span><span class="legend-fire">COMBUSTION</span><span>GAZ BRÛLÉS</span></div>
+              </div>
+              <p class="viewer-help" id="viewerHelp">Glisser : orbite · Molette / pincer : zoom · Cliquer : inspecter une pièce.<br />Au clavier, dans la vue : flèches pour tourner, + / − pour zoomer.</p>
+              <fieldset class="viewer-controls assembly-controls" id="assemblyControls" disabled>
+                <legend class="sr-only">Manipuler le moteur</legend>
+                <div class="assembly-heading">
+                  <label for="explode">DÉMONTAGE PROGRESSIF <output id="explodeValue" for="explode">0 %</output></label>
+                  <div><button type="button" id="assembleButton">Remonter ↙</button><button type="button" id="explodeButton">Éclater ↗</button></div>
+                </div>
+                <input id="explode" type="range" min="0" max="100" value="0" aria-label="Progression du démontage" />
+                <div class="viewer-toggles">
+                  <label><input id="cutaway" type="checkbox" checked /> Voir l’intérieur</label>
+                  <label><input id="autoRotate" type="checkbox" /> Orbite auto</label>
+                  <button type="button" id="tourButton" aria-pressed="false">Visite guidée ↗</button>
+                </div>
+                <div class="tour-caption" id="tourPanel" hidden>
+                  <p id="tourCopy" aria-live="polite"></p>
+                  <button type="button" id="tourNext">Étape suivante →</button>
+                </div>
+              </fieldset>
+              <details class="diagram-fallback" id="diagramFallback" open>
+                <summary>Coupe pédagogique 2D — observer un cylindre</summary>
               <svg
                 class="engine-svg"
                 viewBox="0 0 840 480"
@@ -198,6 +238,7 @@
                 <span>COUPE SIMPLIFIÉE · CINÉMATIQUE PÉDAGOGIQUE</span>
                 <span>VILEBREQUIN <b id="crankAngle">000°</b></span>
               </div>
+              </details>
             </div>
 
             <aside class="engine-console" aria-label="Commandes moteur">
@@ -205,6 +246,7 @@
                 <span class="eyebrow">BANC D’ESSAI</span>
                 <span class="console-led" id="engineLed"></span>
               </div>
+              <p class="console-intro">Votre pied droit.<br /><span>Huit réactions en chaîne.</span></p>
               <div class="rpm-readout">
                 <span class="readout-label">RÉGIME MOTEUR</span>
                 <div><span id="rpmValue">850</span><small>tr/min</small></div>
@@ -216,6 +258,7 @@
               </label>
               <input id="throttle" type="range" min="0" max="100" value="0" aria-label="Position de l’accélérateur" />
               <div class="range-labels"><span>RALENTI</span><span>PLEINE CHARGE</span></div>
+              <p class="throttle-explanation" id="throttleExplanation">Au ralenti, les papillons sont presque fermés. Un faible débit d’air suffit à entretenir la rotation.</p>
               <div class="console-actions">
                 <button class="run-button" id="runButton" type="button" aria-pressed="true">
                   <span class="pause-icon" aria-hidden="true">Ⅱ</span><span id="runLabel">Mettre en pause</span>
@@ -234,8 +277,38 @@
                 </div>
                 <small>Chaque cylindre suit le même cycle, décalé dans le temps.</small>
               </div>
-              <p class="disclaimer">Rotation ralentie pour observer le cycle ; schéma non à l’échelle.</p>
+              <label class="scrub-label" for="cycleScrub">EXPLORER LES 720° <output id="scrubValue" for="cycleScrub">0°</output></label>
+              <input id="cycleScrub" type="range" min="0" max="719" value="0" aria-label="Angle du cycle quatre temps, en degrés" />
+              <p class="disclaimer">Glissez pour figer un instant du cycle. Mouvements ralentis à 2 % du régime affiché ; géométrie et calage simplifiés. Le régime est illustratif, sans simulation de charge.</p>
             </aside>
+          </div>
+          <div class="parts-workbench">
+            <fieldset class="viewer-controls part-picker" id="partControls" disabled>
+              <legend>INSPECTER / 10 ENSEMBLES</legend>
+              <button type="button" data-part="intake" aria-pressed="false"><span>01</span> Admission</button>
+              <button type="button" data-part="heads" aria-pressed="false"><span>02</span> Culasses</button>
+              <button type="button" data-part="valves" aria-pressed="false"><span>03</span> Distribution</button>
+              <button type="button" data-part="pistons" aria-pressed="false"><span>04</span> Pistons</button>
+              <button type="button" data-part="rods" aria-pressed="false"><span>05</span> Bielles</button>
+              <button type="button" data-part="crank" aria-pressed="false"><span>06</span> Vilebrequin</button>
+              <button type="button" data-part="exhaust" aria-pressed="false"><span>07</span> Échappement</button>
+              <button type="button" data-part="block" aria-pressed="false"><span>08</span> Bloc moteur</button>
+              <button type="button" data-part="sump" aria-pressed="false"><span>09</span> Carter d’huile</button>
+              <button type="button" data-part="flywheel" aria-pressed="false"><span>10</span> Volant moteur</button>
+            </fieldset>
+            <article class="part-inspector" aria-labelledby="partTitle">
+              <span class="eyebrow" id="partNumber">MODE EXPLORATION / S65B44</span>
+              <div aria-live="polite">
+                <h3 id="partTitle">Chaque pièce a quelque chose à raconter.</h3>
+                <p id="partCopy">Cliquez sur le moteur ou choisissez un ensemble. Isolez-le, tournez autour et découvrez comment il participe au cycle.</p>
+                <p id="partFact" class="part-fact">8 CYLINDRES · 4 TEMPS · 2 TOURS</p>
+              </div>
+              <fieldset class="viewer-controls inspector-actions" id="inspectorControls" disabled>
+                <legend class="sr-only">Inspection de la pièce</legend>
+                <label><input id="isolatePart" type="checkbox" disabled /> Isoler cette pièce</label>
+                <button type="button" id="showAll">Tout afficher ↗</button>
+              </fieldset>
+            </article>
           </div>
         </div>
       </section>
@@ -314,7 +387,7 @@
               <span class="component-index">04</span>
               <div class="component-illustration crank-illustration" aria-hidden="true"><i></i><b></b></div>
               <h3>Vilebrequin</h3>
-              <p>Relié aux huit bielles, il convertit les poussées successives en rotation. Le S65 utilise un vilebrequin à manetons décalés pour le V à 90°.</p>
+              <p>Relié aux huit bielles, il convertit les poussées successives en rotation. Le S65 utilise un vilebrequin en croix (cross-plane), à manetons répartis à 90°.</p>
               <span class="component-tag">ROTATION · JUSQU’À 8 300 TR/MIN</span>
             </article>
           </div>

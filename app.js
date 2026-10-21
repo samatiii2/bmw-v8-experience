@@ -11,6 +11,8 @@ const phaseDescription = document.querySelector("#phaseDescription");
 const cycleSteps = [...document.querySelectorAll(".cycle-step")];
 const cylinderDots = [...document.querySelectorAll(".cylinder-dots i")];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const cycleScrub = document.querySelector("#cycleScrub");
+const scrubValue = document.querySelector("#scrubValue");
 
 const phases = [
   {
@@ -57,7 +59,7 @@ const phases = [
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const formatNumber = (value) => Math.round(value).toLocaleString("fr-FR");
-let running = true;
+let running = !reducedMotion.matches;
 let phaseDegrees = 0;
 let lastFrame = 0;
 let lastUiUpdate = 0;
@@ -72,6 +74,11 @@ function updateThrottleDisplay() {
   const rpm = getRpm();
   rpmValue.textContent = formatNumber(rpm);
   rpmTrack.style.width = `${((rpm - 850) / 7450) * 100}%`;
+  document.querySelector("#throttleExplanation").textContent = position < 10
+    ? "Au ralenti, les papillons sont presque fermés. Un faible débit d’air suffit à entretenir la rotation."
+    : position < 65
+      ? "Les huit papillons s’ouvrent : davantage d’air entre. L’injection adapte le carburant ; les combustions entretiennent un régime plus élevé."
+      : "Les papillons approchent de la pleine ouverture. Le débit d’air augmente et les cycles se succèdent plus vite. Le régime réel dépend aussi de la charge.";
   document.querySelectorAll(".throttle path").forEach((blade) => {
     blade.style.transform = `rotate(${position * 0.55}deg)`;
   });
@@ -109,11 +116,10 @@ function setPaused(paused) {
 function updateMechanics() {
   const crankRadians = (phaseDegrees * Math.PI) / 180;
   const crankAngle = phaseDegrees % 360;
-  const travel = (1 - Math.cos(crankRadians)) * 27;
-  const pistonPinY = 253 + travel;
   const pinX = 420 + Math.sin(crankRadians) * 34;
   const pinY = 398 - Math.cos(crankRadians) * 34;
   const rodDx = pinX - 420;
+  const pistonPinY = pinY - Math.sqrt(174 ** 2 - rodDx ** 2);
   const rodDy = pinY - pistonPinY;
   const rodLength = Math.hypot(rodDx, rodDy);
   const rodAngle = (Math.atan2(-rodDx, rodDy) * 180) / Math.PI;
@@ -124,6 +130,8 @@ function updateMechanics() {
   document.querySelector("#crankPin").setAttribute("cx", pinX);
   document.querySelector("#crankPin").setAttribute("cy", pinY);
   document.querySelector("#crankAngle").textContent = `${String(Math.round(crankAngle)).padStart(3, "0")}°`;
+  cycleScrub.value = String(Math.floor(phaseDegrees));
+  scrubValue.textContent = `${Math.floor(phaseDegrees)}°`;
 
   const phaseIndex = Math.floor(phaseDegrees / 180) % phases.length;
   if (phaseIndex !== Number(document.querySelector(".cycle-step.is-active").dataset.phase)) {
@@ -145,10 +153,17 @@ function animate(timestamp) {
   if (running && !reducedMotion.matches) {
     phaseDegrees = (phaseDegrees + getRpm() * 6 * elapsed * 0.02) % 720;
   }
-  if (timestamp - lastUiUpdate > 40 || !running || reducedMotion.matches) {
+  if (timestamp - lastUiUpdate > 40) {
     updateMechanics();
     lastUiUpdate = timestamp;
   }
+  window.bmwEngineState = {
+    degrees: phaseDegrees,
+    throttle: Number(throttle.value) / 100,
+    running,
+    reducedMotion: reducedMotion.matches,
+  };
+  window.dispatchEvent(new CustomEvent("bmw:engine-state", { detail: window.bmwEngineState }));
   requestAnimationFrame(animate);
 }
 
@@ -157,24 +172,34 @@ runButton.addEventListener("click", () => setPaused(running));
 resetButton.addEventListener("click", () => {
   throttle.value = "0";
   phaseDegrees = 0;
-  setPaused(false);
+  setPaused(reducedMotion.matches);
   updateThrottleDisplay();
+  updateMechanics();
+  window.dispatchEvent(new Event("bmw:reset"));
+});
+cycleScrub.addEventListener("input", () => {
+  setPaused(true);
+  phaseDegrees = Number(cycleScrub.value);
+  setPhase(Math.floor(phaseDegrees / 180));
   updateMechanics();
 });
 cycleSteps.forEach((step) => {
   step.addEventListener("click", () => {
     const index = Number(step.dataset.phase);
+    setPaused(true);
     phaseDegrees = index * 180;
     setPhase(index);
     updateMechanics();
   });
 });
 reducedMotion.addEventListener("change", () => {
+  if (reducedMotion.matches) setPaused(true);
   lastFrame = 0;
   updateMechanics();
 });
 
 updateThrottleDisplay();
+setPaused(!running);
 setPhase(0);
 updateMechanics();
 requestAnimationFrame(animate);
