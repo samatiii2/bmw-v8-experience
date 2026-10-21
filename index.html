@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Une exploration interactive du V8 atmosphérique S65B44 de la BMW M3 GTS E92."
+    />
+    <meta name="theme-color" content="#f3f2ed" />
+    <title>V8 — BMW M3 GTS / S65B44</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Retour à l’accueil">
+        <span class="wordmark-mark">V8</span>
+        <span class="wordmark-copy">ENGINE<br />STUDY <span>№ 01</span></span>
+      </a>
+      <nav aria-label="Navigation principale">
+        <a href="#mecanique">La mécanique</a>
+        <a href="#cycle">Le cycle</a>
+        <a href="#anatomie">Anatomie</a>
+      </nav>
+      <a class="header-model" href="#top">BMW M3 GTS <span>— E92</span></a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> ÉTUDE INTERACTIVE · 2010</p>
+          <h1 id="hero-title">Le cœur<br />à <span>8 cylindres.</span></h1>
+          <div class="hero-intro">
+            <p>
+              Huit cylindres. Une seule respiration. Entrez dans le V8 atmosphérique
+              de la BMW M3 GTS et regardez la mécanique prendre vie.
+            </p>
+            <a class="text-link" href="#mecanique">Explorer le moteur <span>↘</span></a>
+          </div>
+          <div class="hero-specs" aria-label="Caractéristiques principales">
+            <div><strong>4,4 <small>L</small></strong><span>CYLINDRÉE</span></div>
+            <div><strong>450 <small>ch</small></strong><span>À 8 300 tr/min</span></div>
+            <div><strong>440 <small>Nm</small></strong><span>À 3 750 tr/min</span></div>
+          </div>
+        </div>
+        <div class="hero-stamp" aria-hidden="true">
+          <span>S65</span>
+          <span>B44</span>
+          <i>90°</i>
+        </div>
+      </section>
+
+      <section class="engine-section" id="mecanique" aria-labelledby="engine-title">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">01 / OBSERVATOIRE MÉCANIQUE</p>
+              <h2 id="engine-title">La puissance,<br /><span>en mouvement.</span></h2>
+            </div>
+            <p class="section-aside">
+              Un V à 90°, huit papillons indépendants et un vilebrequin à
+              plan plat. Faites varier le régime pour observer le cycle.
+            </p>
+          </div>
+
+          <div class="engine-lab">
+            <div class="engine-visual">
+              <div class="visual-topline">
+                <span><span class="live-dot"></span> COUPE ANIMÉE</span>
+                <span>SCHÉMA PÉDAGOGIQUE · 1 CYLINDRE SUR 8</span>
+              </div>
+              <svg
+                class="engine-svg"
+                viewBox="0 0 840 480"
+                role="img"
+                aria-labelledby="diagram-title diagram-description"
+              >
+                <title id="diagram-title">Coupe animée d’un cylindre du V8 S65B44</title>
+                <desc id="diagram-description">
+                  Schéma d’un cylindre avec soupapes, bougie, piston, bielle et vilebrequin.
+                  Les mouvements changent avec le régime choisi.
+                </desc>
+                <defs>
+                  <linearGradient id="block-gradient" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0" stop-color="#42463f" />
+                    <stop offset="1" stop-color="#252923" />
+                  </linearGradient>
+                  <linearGradient id="metal-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#e1e1d7" />
+                    <stop offset="1" stop-color="#9a9f96" />
+                  </linearGradient>
+                  <radialGradient id="spark-gradient">
+                    <stop offset="0" stop-color="#ffdc70" stop-opacity=".9" />
+                    <stop offset="1" stop-color="#ffdc70" stop-opacity="0" />
+                  </radialGradient>
+                  <pattern id="hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="0" y2="8" stroke="#6d7169" stroke-opacity=".25" stroke-width="2" />
+                  </pattern>
+                </defs>
+
+                <g class="diagram-grid" aria-hidden="true">
+                  <path d="M70 80H770M70 160H770M70 240H770M70 320H770M70 400H770" />
+                  <path d="M140 42V442M280 42V442M420 42V442M560 42V442M700 42V442" />
+                  <circle cx="420" cy="350" r="130" />
+                </g>
+
+                <g class="inlet-system">
+                  <path class="inlet-tube" d="M245 72 C270 35 330 40 365 70 L390 100" />
+                  <path class="inlet-tube" d="M595 72 C570 35 510 40 475 70 L450 100" />
+                  <path class="inlet-rail" d="M250 69H335M590 69H505" />
+                  <g class="throttle left-throttle" transform="translate(310 69)">
+                    <circle r="19" />
+                    <path d="M-12 8L12-8" />
+                  </g>
+                  <g class="throttle right-throttle" transform="translate(530 69)">
+                    <circle r="19" />
+                    <path d="M-12 8L12-8" />
+                  </g>
+                  <text class="diagram-label" x="420" y="35" text-anchor="middle">ADMISSION · PAPILLONS INDIVIDUELS</text>
+                </g>
+
+                <g class="engine-block">
+                  <path class="block-shell" d="M287 112H553L580 150V333L541 361H299L260 333V150Z" />
+                  <path class="block-hatch" d="M287 112H553L580 150V333L541 361H299L260 333V150Z" />
+                  <path class="head-metal" d="M306 111H534L548 138H292Z" />
+                  <path class="cylinder-wall" d="M348 137H492V307H348Z" />
+                  <path class="cylinder-inner" d="M360 146H480V300H360Z" />
+                  <path class="chamber-glow" d="M366 146H474V187H366Z" />
+                  <path class="head-line" d="M300 137H540" />
+                  <path class="head-line" d="M300 148H540" />
+                  <path class="lower-block" d="M297 308H543L555 344L531 363H309L285 344Z" />
+                </g>
+
+                <g class="valve valve-intake" id="intakeValve">
+                  <path d="M382 100V150" />
+                  <path class="valve-head" d="M369 150H395" />
+                  <path class="valve-spring" d="M377 116l10 5-10 5 10 5-10 5 10 5-10 5" />
+                </g>
+                <g class="valve valve-exhaust" id="exhaustValve">
+                  <path d="M458 100V150" />
+                  <path class="valve-head" d="M445 150H471" />
+                  <path class="valve-spring" d="M453 116l10 5-10 5 10 5-10 5 10 5-10 5" />
+                </g>
+                <g class="spark-plug" id="sparkPlug">
+                  <path d="M420 88V161" />
+                  <path d="M411 88H429M414 96H426" />
+                  <path class="spark-bolt" d="M420 154l-7 10h7l-4 10 12-14h-7l5-6" />
+                  <circle class="spark-halo" cx="420" cy="172" r="31" />
+                </g>
+
+                <g id="piston" class="piston">
+                  <path d="M362 0H478V32L466 39H374L362 32Z" />
+                  <path class="piston-ring" d="M366 8H474M366 15H474" />
+                  <circle cx="420" cy="25" r="8" />
+                </g>
+                <g class="connecting-rod" id="connectingRod">
+                  <path d="M411 8H429L438 106L420 114L402 106Z" />
+                  <circle cx="420" cy="8" r="7" />
+                </g>
+                <g class="crank-wheel" id="crankWheel">
+                  <circle cx="420" cy="0" r="43" />
+                  <circle class="wheel-cutout" cx="420" cy="0" r="30" />
+                  <path d="M420-38V-30M420 30V38M382 0H390M450 0H458" />
+                  <circle class="wheel-hub" cx="420" cy="0" r="11" />
+                </g>
+                <circle class="crank-pin" id="crankPin" cx="420" cy="0" r="9" />
+                <path class="crank-axis" d="M372 398H468" />
+
+                <g class="exhaust-system">
+                  <path d="M367 303C333 321 323 350 342 378M473 303C507 321 517 350 498 378" />
+                  <path d="M342 378L318 408M498 378L522 408" />
+                  <text class="diagram-label" x="317" y="431">ÉCHAPPEMENT</text>
+                  <text class="diagram-label" x="523" y="431" text-anchor="end">GAZ BRÛLÉS</text>
+                </g>
+
+                <g class="callout">
+                  <path d="M478 155L620 117H710" />
+                  <circle cx="478" cy="155" r="3" />
+                  <text x="716" y="113">SOUPAPES</text>
+                  <text class="callout-sub" x="716" y="130">admission / échappement</text>
+                </g>
+                <g class="callout">
+                  <path d="M468 271L621 292H710" />
+                  <circle cx="468" cy="271" r="3" />
+                  <text x="716" y="288">PISTON</text>
+                  <text class="callout-sub" x="716" y="305">course variable</text>
+                </g>
+                <g class="callout">
+                  <path d="M420 399L238 425H123" />
+                  <circle cx="420" cy="399" r="3" />
+                  <text x="119" y="421" text-anchor="end">VILEBREQUIN</text>
+                  <text class="callout-sub" x="119" y="438" text-anchor="end">rotation continue</text>
+                </g>
+                <text class="diagram-mark" x="75" y="468">S65B44 / 4.4L / V8</text>
+              </svg>
+              <div class="diagram-caption">
+                <span>COUPE SIMPLIFIÉE · CINÉMATIQUE PÉDAGOGIQUE</span>
+                <span>VILEBREQUIN <b id="crankAngle">000°</b></span>
+              </div>
+            </div>
+
+            <aside class="engine-console" aria-label="Commandes moteur">
+              <div class="console-heading">
+                <span class="eyebrow">BANC D’ESSAI</span>
+                <span class="console-led" id="engineLed"></span>
+              </div>
+              <div class="rpm-readout">
+                <span class="readout-label">RÉGIME MOTEUR</span>
+                <div><span id="rpmValue">850</span><small>tr/min</small></div>
+                <div class="rpm-track" aria-hidden="true"><span id="rpmTrack"></span></div>
+              </div>
+              <label class="throttle-control" for="throttle">
+                <span>PRESSION SUR L’ACCÉLÉRATEUR</span>
+                <span class="throttle-value"><b id="throttleValue">0</b><small>%</small></span>
+              </label>
+              <input id="throttle" type="range" min="0" max="100" value="0" aria-label="Position de l’accélérateur" />
+              <div class="range-labels"><span>RALENTI</span><span>PLEINE CHARGE</span></div>
+              <div class="console-actions">
+                <button class="run-button" id="runButton" type="button" aria-pressed="true">
+                  <span class="pause-icon" aria-hidden="true">Ⅱ</span><span id="runLabel">Mettre en pause</span>
+                </button>
+                <button class="reset-button" id="resetButton" type="button">Réinitialiser</button>
+              </div>
+              <div class="cycle-readout">
+                <span class="readout-label">PHASE EN COURS</span>
+                <strong id="phaseName">ADMISSION</strong>
+                <p id="phaseDescription">Le piston descend. Le mélange air-carburant entre dans le cylindre.</p>
+              </div>
+              <div class="cylinder-sequence">
+                <span class="readout-label">LES 8 CYLINDRES</span>
+                <div class="cylinder-dots" aria-label="Animation schématique des huit cylindres">
+                  <i class="active"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <small>Chaque cylindre suit le même cycle, décalé dans le temps.</small>
+              </div>
+              <p class="disclaimer">Rotation ralentie pour observer le cycle ; schéma non à l’échelle.</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="cycle-section section-shell" id="cycle" aria-labelledby="cycle-title">
+        <div class="section-heading cycle-heading">
+          <div>
+            <p class="eyebrow">02 / UN CYCLE COMPLET</p>
+            <h2 id="cycle-title">720° pour<br /><span>recommencer.</span></h2>
+          </div>
+          <p class="section-aside">
+            Un cycle quatre temps demande deux tours de vilebrequin. Sélectionnez
+            une phase pour voir son rôle et son effet sur le cylindre.
+          </p>
+        </div>
+        <div class="cycle-layout">
+          <div class="cycle-list" role="tablist" aria-label="Les quatre temps du moteur">
+            <button class="cycle-step is-active" type="button" role="tab" aria-selected="true" data-phase="0">
+              <span class="step-number">01</span><span><strong>Admission</strong><small>0° — 180°</small></span><span class="step-arrow">↗</span>
+            </button>
+            <button class="cycle-step" type="button" role="tab" aria-selected="false" data-phase="1">
+              <span class="step-number">02</span><span><strong>Compression</strong><small>180° — 360°</small></span><span class="step-arrow">↗</span>
+            </button>
+            <button class="cycle-step" type="button" role="tab" aria-selected="false" data-phase="2">
+              <span class="step-number">03</span><span><strong>Détente</strong><small>360° — 540°</small></span><span class="step-arrow">↗</span>
+            </button>
+            <button class="cycle-step" type="button" role="tab" aria-selected="false" data-phase="3">
+              <span class="step-number">04</span><span><strong>Échappement</strong><small>540° — 720°</small></span><span class="step-arrow">↗</span>
+            </button>
+          </div>
+          <article class="cycle-detail" aria-live="polite">
+            <div class="cycle-detail-top"><span id="cycleCounter">ÉTAPE 01 / 04</span><span id="cycleRange">0° — 180°</span></div>
+            <div class="cycle-glyph" id="cycleGlyph" aria-hidden="true">↓</div>
+            <h3 id="cycleDetailTitle">Le mélange entre.</h3>
+            <p id="cycleDetailCopy">La soupape d’admission s’ouvre. Le piston descend et aspire l’air, mélangé au carburant, dans le cylindre.</p>
+            <div class="valve-status"><span>SOUPAPE D’ADMISSION <b id="intakeStatus">OUVERTE</b></span><span>SOUPAPE D’ÉCHAPPEMENT <b id="exhaustStatus">FERMÉE</b></span></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="anatomy-section" id="anatomie" aria-labelledby="anatomy-title">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">03 / ANATOMIE DU S65</p>
+              <h2 id="anatomy-title">Chaque pièce<br /><span>a son rôle.</span></h2>
+            </div>
+            <p class="section-aside">
+              Un moteur atmosphérique haute-régime : aucune suralimentation,
+              une réponse directe et huit cylindres qui respirent librement.
+            </p>
+          </div>
+          <div class="component-grid">
+            <article class="component-card">
+              <span class="component-index">01</span>
+              <div class="component-illustration intake-illustration" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <h3>Admission individuelle</h3>
+              <p>Huit papillons — un par cylindre — dosent l’air au plus près des chambres. À l’accélération, ils s’ouvrent et le moteur respire davantage.</p>
+              <span class="component-tag">RÉPONSE DIRECTE</span>
+            </article>
+            <article class="component-card">
+              <span class="component-index">02</span>
+              <div class="component-illustration piston-illustration" aria-hidden="true"><i></i><b></b></div>
+              <h3>Piston &amp; bielle</h3>
+              <p>La pression de combustion pousse le piston. La bielle transmet son mouvement de va-et-vient au vilebrequin et le transforme en rotation.</p>
+              <span class="component-tag">MOUVEMENT ALTERNATIF</span>
+            </article>
+            <article class="component-card">
+              <span class="component-index">03</span>
+              <div class="component-illustration valve-illustration" aria-hidden="true"><i></i><i></i><b></b></div>
+              <h3>Soupapes &amp; arbre à cames</h3>
+              <p>Les soupapes ouvrent et ferment les passages d’air et de gaz. Leur synchronisation avec le vilebrequin règle chaque temps du cycle.</p>
+              <span class="component-tag">CALAGE VARIABLE</span>
+            </article>
+            <article class="component-card">
+              <span class="component-index">04</span>
+              <div class="component-illustration crank-illustration" aria-hidden="true"><i></i><b></b></div>
+              <h3>Vilebrequin</h3>
+              <p>Relié aux huit bielles, il convertit les poussées successives en rotation. Le S65 utilise un vilebrequin à manetons décalés pour le V à 90°.</p>
+              <span class="component-tag">ROTATION · JUSQU’À 8 300 TR/MIN</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing section-shell" aria-label="Résumé du moteur">
+        <div class="closing-top"><span>BMW M3 GTS · E92</span><span>UNE ÉDITION POUR LE CIRCUIT</span></div>
+        <p>Pas de turbo.<br /><span>Juste l’air, le feu,</span><br />et 8 300 tours.</p>
+        <div class="closing-bottom"><span>S65B44 · V8 ATMOSPHÉRIQUE</span><a href="#top">REVENIR EN HAUT ↑</a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>UNE EXPLORATION MÉCANIQUE INDÉPENDANTE.</span>
+      <span>BMW et M3 sont des marques de leurs propriétaires respectifs.</span>
+      <a href="#top">S65 / 01</a>
+    </footer>
+  </body>
+</html>
