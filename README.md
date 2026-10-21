@@ -15,6 +15,15 @@ npm start
 Puis ouvrez [http://localhost:4173](http://localhost:4173). Python 3 est requis
 pour le serveur statique.
 
+## Voir la version en ligne
+
+Après activation de GitHub Pages dans **Settings → Pages → Build and deployment
+→ Source: GitHub Actions**, le workflow publie automatiquement le site à
+[https://samatiii2.github.io/bmw-v8-experience/](https://samatiii2.github.io/bmw-v8-experience/).
+Il se lance à chaque mise à jour de `main` ou de la branche de travail actuelle.
+La première publication peut prendre quelques minutes ; son état et son URL
+s’affichent dans **Actions → Deploy to GitHub Pages**.
+
 ## Explorer
 
 - Modifiez l’accélérateur pour faire varier le régime et le mouvement du piston,
